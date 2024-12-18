@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="FunkyInventoryWPF.UserControls.TitledTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FunkyInventoryWPF.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <DockPanel LastChildFill="False">
+        <TextBlock x:Name="textBlock" DockPanel.Dock="Top" FontSize="{Binding Path=TextBlockFontSize}" FontWeight="{Binding Path=TextBlockFontWeight}"
+                   Foreground="{Binding Path=TextBlockForeground}" HorizontalAlignment="Left" Margin="0, 0, 0, 2" Text="{Binding Path=TextBoxTitle}" VerticalAlignment="Top" />
+        <TextBox x:Name="textBox" DockPanel.Dock="Top" Background="{Binding Path=TextBoxBackground}" BorderBrush="{Binding Path=TextBoxBorderBrush}"
+                 BorderThickness="{Binding Path=TextBoxBorderThickness}" CaretBrush="{Binding Path=TextBoxCaretBrush}" Foreground="{Binding Path=TextBoxForeground}"
+                 FontSize="{Binding Path=TextBoxFontSize}" FontWeight="{Binding Path=TextBoxFontWeight}" HorizontalAlignment="Left" Margin="0, 2, 0, 0" Text="{Binding Path=Value}"
+                 VerticalContentAlignment="Top" Width="250" />
+    </DockPanel>
+</UserControl>

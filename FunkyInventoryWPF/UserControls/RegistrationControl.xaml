@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="FunkyInventoryWPF.UserControls.RegistrationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:local="clr-namespace:FunkyInventoryWPF.UserControls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm ="clr-namespace:FunkyInventoryWPF.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{x:Static local:RegistrationControl.CancelCommand}" CanExecute="CanExecuteCancelCommand" Executed="ExecutedCancelCommand" />
+        <CommandBinding Command="{x:Static local:RegistrationControl.RegisterCommand}" CanExecute="CanExecuteRegisterCommand" Executed="ExecutedRegisterCommand" />
+    </UserControl.CommandBindings>
+
+    <UserControl.DataContext>
+        <vm:RegistrationControlViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Styles\GenericStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel HorizontalAlignment="Stretch" LastChildFill="False" Margin="5" VerticalAlignment="Center">
+        <TextBlock DockPanel.Dock="Top" FontSize="34" FontWeight="Bold" Foreground="#FF999999" HorizontalAlignment="Center" Margin="0, 20" Text="New User Registration"
+                   VerticalAlignment="Bottom" />
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--Row 0-->
+            <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
+                <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtFirstName}" Style="{DynamicResource TextBoxTitleStyle}" Text="First Name" />
+                <TextBox x:Name="txtFirstName" DockPanel.Dock="Top" Text="{Binding Path=FirstName}" />
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
+                <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtLastName}" Style="{DynamicResource TextBoxTitleStyle}" Text="Last Name" />
+                <TextBox x:Name="txtLastName" DockPanel.Dock="Top" Text="{Binding Path=LastName}" VerticalAlignment="Bottom" />
+            </DockPanel>
+            <!--Row 1-->
+            <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
+                <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtEmail}" Style="{DynamicResource TextBoxTitleStyle}" Text="Email" />
+                <TextBox x:Name="txtEmail" DockPanel.Dock="Top" Text="{Binding Path=Email}" VerticalAlignment="Bottom" />
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
+                <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtUserName}" Style="{DynamicResource TextBoxTitleStyle}" Text="User Name" />
+                <TextBox x:Name="txtUserName" DockPanel.Dock="Top" Text="{Binding Path=UserName}" VerticalAlignment="Bottom" />
+            </DockPanel>
+
+            <!--Row 2-->
+            <!--Password-->
+            <DockPanel Grid.Column="1" Grid.Row="2" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
+                <TextBlock DockPanel.Dock="Top" Style="{DynamicResource TextBoxTitleStyle}" Text="Password" />
+                <Grid DockPanel.Dock="Top">
+                    <PasswordBox x:Name="pwbPassword" PasswordChanged="Hidden_PasswordChanged" VerticalAlignment="Bottom" />
+                    <TextBox x:Name="txtPassword" Text="{Binding Path=Password, Mode=TwoWay}" TextChanged="Shown_PasswordChanged" VerticalAlignment="Bottom" Visibility="Collapsed" />
+                </Grid>
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="2" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
+                <TextBlock DockPanel.Dock="Top" Style="{DynamicResource TextBoxTitleStyle}" Text="Confirm Password" />
+                <Grid DockPanel.Dock="Top">
+                    <PasswordBox x:Name="pwbConfirmPassword" PasswordChanged="Hidden_ConfirmPasswordChanged" VerticalAlignment="Bottom" />
+                    <TextBox x:Name="txtConfirmPassword" Text="{Binding Path=ConfirmPassword, Mode=TwoWay}" TextChanged="Shown_ConfirmPasswordChanged" VerticalAlignment="Bottom"
+                             Visibility="Collapsed" />
+                </Grid>
+            </DockPanel>
+            <CheckBox x:Name="cbShowPassword" Grid.Column="3" Grid.Row="2" Click="OnShowPasswordClicked" Height="10" HorizontalAlignment="Left" Margin="9, 13"
+                      Style="{DynamicResource ShowPassStyle}" VerticalAlignment="Bottom" />
+
+            <!--Row 3-->
+            <StackPanel Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Background="Transparent" BorderThickness="0" Command="local:RegistrationControl.RegisterCommand" HorizontalAlignment="Right" Margin="5, 0"
+                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top">
+                    <TextBlock Text="Register" />
+                </Button>
+                <Button Background="Transparent" BorderBrush="Transparent" Command="local:RegistrationControl.CancelCommand" HorizontalAlignment="Right"
+                        Margin="5, 0, 25, 0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Top">
+                    <TextBlock Text="Cancel" />
+                </Button>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>
