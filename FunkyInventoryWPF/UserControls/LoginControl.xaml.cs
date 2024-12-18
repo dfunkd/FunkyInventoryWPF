@@ -91,7 +91,7 @@ public partial class LoginControl : UserControl
         DataContext = vm;
         VM = vm;
 
-        this.Resources["ShowPassStyle"] = (Style)Application.Current.Resources["ShowPassStyle"];
+        Resources["ShowPassStyle"] = (Style)Application.Current.Resources["ShowPassStyle"];
     }
 
     #region Events

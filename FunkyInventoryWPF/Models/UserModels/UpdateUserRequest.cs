@@ -1,4 +1,4 @@
-﻿namespace FunkyInventoryWPF.Models.UserModels.Requests;
+﻿namespace FunkyInventoryWPF.Models.UserModels;
 
 public class UpdateUserRequest
 {

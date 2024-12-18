@@ -1,5 +1,4 @@
-﻿using FunkyInventoryWPF.Models.UserModels.Requests;
-using FunkyInventoryWPF.Models.UserModels;
+﻿using FunkyInventoryWPF.Models.UserModels;
 using Dapper;
 using System.Data;
 using Microsoft.Data.SqlClient;

@@ -47,7 +47,8 @@ namespace FunkyInventoryWPF
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
             dpContent.Children.Clear();
-            dpContent.Children.Add(((App)Application.Current).LoginControl);
+            //dpContent.Children.Add(((App)Application.Current).LoginControl);
+            dpContent.Children.Add(((App)Application.Current).UserAdministrationControl);
         }
     }
 }

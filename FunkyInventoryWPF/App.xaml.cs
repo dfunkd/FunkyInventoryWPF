@@ -16,6 +16,7 @@ public partial class App : Application
     #region UserControls
     public LoginControl LoginControl { get; set; }
     public RegistrationControl RegistrationControl { get; set; }
+    public UserAdministrationControl UserAdministrationControl { get; set; }
     #endregion
 
     public MainWindow MainWindow { get; set; }
@@ -29,6 +30,7 @@ public partial class App : Application
 
         LoginControl = serviceProvider.GetRequiredService<LoginControl>();
         RegistrationControl = serviceProvider.GetRequiredService<RegistrationControl>();
+        UserAdministrationControl = serviceProvider.GetRequiredService<UserAdministrationControl>();
 
         MainWindow = serviceProvider.GetRequiredService<MainWindow>();
         MainWindow.Show();
@@ -45,13 +47,18 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<RegistrationControlViewModel>();
         services.AddSingleton<RegistrationControl>();
 
+        services.AddSingleton<UserAdministrationControlViewModel>();
+        services.AddSingleton<UserAdministrationControl>();
+
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainWindow>();
 
         services.AddScoped<ILoginService,  LoginService>();
+        services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserService, UserService>();
 
         services.AddScoped<ILoginRepository,  LoginRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
     }
 }

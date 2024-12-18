@@ -1,4 +1,4 @@
-﻿using FunkyInventoryWPF.Models.UserModels.Requests;
+﻿using FunkyInventoryWPF.Models.UserModels;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

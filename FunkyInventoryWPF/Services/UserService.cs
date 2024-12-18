@@ -1,6 +1,5 @@
 ﻿using FunkyInventoryWPF.Data.Repositories;
 using FunkyInventoryWPF.Models.UserModels;
-using FunkyInventoryWPF.Models.UserModels.Requests;
 
 namespace FunkyInventoryWPF.Services;
 

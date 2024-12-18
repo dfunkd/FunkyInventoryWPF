@@ -1,5 +1,4 @@
 ﻿using FunkyInventoryWPF.Models.UserModels;
-using FunkyInventoryWPF.Models.UserModels.Requests;
 using FunkyInventoryWPF.Services;
 using FunkyInventoryWPF.ViewModels;
 using System.Windows;
@@ -77,25 +76,6 @@ One or both already exist.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.E
             inventoryWindow.dpContent.Children.Clear();
             inventoryWindow.dpContent.Children.Add(((App)Application.Current).LoginControl);
         }
-
-        //        string url = $"{appSettings.BaseUrl}{appSettings.UserEndpoints.UserNameOrEmailExists}?email={VM.Email}&username={VM.UserName}";
-        //        bool exists = await userService.UserNameOrEmailExists(url, cancellationToken);
-
-        //        if (exists)
-        //            MessageBox.Show(inventoryWindow, @$"User: {VM.UserName}
-        //Email: {VM.Email}
-
-        //One or both already exist.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        else
-        //        {
-        //            User? user = await userService.RegisterUser(VM.GetAddUserRequest(), $"{appSettings.BaseUrl}{appSettings.UserEndpoints.RegisterUser}", cancellationToken);
-
-        //            if (user is not null)
-        //            {
-        //                inventoryWindow.dpContent.Children.Clear();
-        //                inventoryWindow.dpContent.Children.Add(app.LoginControl);
-        //            }
-        //        }
     }
     #endregion
     #endregion
