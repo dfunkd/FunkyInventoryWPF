@@ -1,7 +1,6 @@
 ﻿using FunkyInventoryWPF.Models.UserModels;
 using FunkyInventoryWPF.Services;
 using FunkyInventoryWPF.ViewModels;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,9 +26,25 @@ namespace FunkyInventoryWPF.UserControls
         public static RoutedCommand DeleteUserCommand = deleteUserCommand;
         private void CanExecuteDeleteUserCommand(object sender, CanExecuteRoutedEventArgs e)
             => e.CanExecute = e.Source is Control;
-        private void ExecutedDeleteUserCommand(object sender, ExecutedRoutedEventArgs e)
+        private async void ExecutedDeleteUserCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            bool success = false;
+            if (Guid.TryParse((e.OriginalSource as Button)?.Tag.ToString(), out Guid userId) && await userService.DeleteUser(userId, cancellationToken))
+            {
+                UserAdministrationControlViewModel vm = DataContext as UserAdministrationControlViewModel;
+                if (vm is not null)
+                {
+                    User user = vm.Users.Where(w => w.UserId == userId).FirstOrDefault();
+                    if (user is not null)
+                    {
+                        vm.Users.Remove(user);
+                        success = true;
+                    }
+                }
+            }
 
+            if (!success)
+                MessageBox.Show(inventoryWindow, "User was not deleted.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         #endregion
 
@@ -37,7 +52,10 @@ namespace FunkyInventoryWPF.UserControls
         private static readonly RoutedCommand saveUserCommand = new();
         public static RoutedCommand SaveUserCommand = saveUserCommand;
         private void CanExecuteSaveUserCommand(object sender, CanExecuteRoutedEventArgs e)
-            => e.CanExecute = e.Source is Control;
+        {
+            UserAdministrationControlViewModel vm = DataContext as UserAdministrationControlViewModel;
+            e.CanExecute = vm is not null && vm.IsValid();
+        }
         private void ExecutedSaveUserCommand(object sender, ExecutedRoutedEventArgs e)
         {
 
@@ -49,7 +67,6 @@ namespace FunkyInventoryWPF.UserControls
         private IRoleService roleService;
         private IUserService userService;
         private CancellationToken cancellationToken = default;
-        private UserAdministrationControlViewModel VM;
         private readonly MainWindow inventoryWindow;
         private bool _suspendChangeHandlers = false;
         #endregion
@@ -62,9 +79,9 @@ namespace FunkyInventoryWPF.UserControls
             this.userService = userService;
             inventoryWindow = parent;
             DataContext = vm;
-            VM = vm;
         }
 
+        #region Events
         private void OnGotFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox)
@@ -75,8 +92,44 @@ namespace FunkyInventoryWPF.UserControls
 
         private async void OnLoad(object sender, RoutedEventArgs e)
         {
-            (DataContext as UserAdministrationControlViewModel).Users = [.. await userService.GetAllUsers()];
-            ObservableCollection<Role> roles = [.. await roleService.GetAllRoles(cancellationToken)];
+            UserAdministrationControlViewModel vm = DataContext as UserAdministrationControlViewModel;
+            if (vm is not null)
+            {
+                vm.Users = [.. await userService.GetAllUsers()];
+                List<Role> roles = [.. await roleService.GetAllRoles(cancellationToken)];
+                vm.Roles = [.. roles.OrderBy(o => o.RoleName)];
+            }
         }
+
+        private void OnSelectedRoleChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UserAdministrationControlViewModel vm = (DataContext as UserAdministrationControlViewModel);
+            if (vm is not null)
+                vm.SelectedRole = cboRole.SelectedItem as Role;
+        }
+
+        private void OnSelectedUserChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UserAdministrationControlViewModel vm = (DataContext as UserAdministrationControlViewModel);
+            if (vm is not null)
+                foreach (Role item in cboRole.Items)
+                    if (item.RoleId == vm.SelectedUser.RoleId)
+                        cboRole.SelectedItem = item;
+        }
+
+        private void OnShowPasswordClicked(object sender, RoutedEventArgs e)
+        {
+            if (cbShowPassword.IsChecked == true)
+            {
+                txtEncrypted.Visibility = Visibility.Collapsed;
+                txtDecrypted.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                txtEncrypted.Visibility = Visibility.Visible;
+                txtDecrypted.Visibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
     }
 }

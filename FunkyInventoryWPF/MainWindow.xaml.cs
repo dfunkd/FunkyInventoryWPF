@@ -46,9 +46,14 @@ namespace FunkyInventoryWPF
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
+            //var test1 = "Samuelxf11041997!".Encrypt();
+            //var test2 = test1.Decrypt();
+            //var test3 = "6iJ3mW8q1SfP8N1blxMLN7l3lXP1o9_6A5an6oo3ClU=".Decrypt();
+
             dpContent.Children.Clear();
             //dpContent.Children.Add(((App)Application.Current).LoginControl);
             dpContent.Children.Add(((App)Application.Current).UserAdministrationControl);
+            //dpContent.Children.Add(((App)Application.Current).RegistrationControl);
         }
     }
 }

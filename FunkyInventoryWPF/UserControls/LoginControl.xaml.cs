@@ -138,7 +138,10 @@ public partial class LoginControl : UserControl
         if (active is PasswordBox && passive is TextBox)
             SetCurrentValue(PasswordProperty, (active as PasswordBox)?.Password);
         else if (active is TextBox && passive is PasswordBox)
+        {
             SetCurrentValue(PasswordProperty, (active as TextBox)?.Text);
+            (passive as PasswordBox).Password = Password;
+        }
 
         _suspendChangeHandlers = false;
     }

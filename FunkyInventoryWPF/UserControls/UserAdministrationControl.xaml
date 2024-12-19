@@ -52,7 +52,8 @@
                     </wm:WatermarkService.Watermark>
                 </TextBox>
             </AdornerDecorator>
-            <ListView x:Name="lvUsers" Background="Transparent" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Users}" Margin="5, 0, 0, 5" SelectedItem="{Binding SelectedUser}">
+            <ListView x:Name="lvUsers" Foreground="#FF999999" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Users}" Margin="5, 0, 0, 5"
+                      SelectedItem="{Binding SelectedUser}" SelectionChanged="OnSelectedUserChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -61,8 +62,10 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             
-                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="5, 2" Text="{Binding UserName}" VerticalAlignment="Center" />
-                            <Button Grid.Column="1" HorizontalAlignment="Right" Margin="5, 2" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Left" Margin="5, 2" Style="{DynamicResource TextBoxTitleStyle}" Text="{Binding UserName}"
+                                       VerticalAlignment="Center" />
+                            <Button Grid.Column="1" Command="local:UserAdministrationControl.DeleteUserCommand" HorizontalAlignment="Right" Margin="5, 2"
+                                    Tag="{Binding Path=UserId}" VerticalAlignment="Center">
                                 <TextBlock Foreground="{Binding (Button.IsEnabled), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},
                                     Converter={StaticResource IsEnabledToDeleteForegroundConverter}}" Text="X" />
                             </Button>
@@ -73,10 +76,77 @@
         </DockPanel>
 
         <Grid Grid.Column="1" Grid.Row="0">
+            <!-- Visibility="{Binding Path=SelectedUser, Converter={StaticResource NullToCollapsedConverter}}"-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <!--Row 1-->
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" HorizontalAlignment="Center" Style="{DynamicResource TitleStyle}" Text="Update User" />
             
+            <!--Row 2-->
+            <DockPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" LastChildFill="False" VerticalAlignment="Bottom">
+                <TextBox DockPanel.Dock="Bottom" Margin="5, 0" Text="{Binding SelectedUser.FirstName}" />
+                <TextBlock DockPanel.Dock="Bottom" Margin="5, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="First Name" />
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch" LastChildFill="False" VerticalAlignment="Bottom">
+                <TextBox DockPanel.Dock="Bottom" Margin="5, 0" Text="{Binding SelectedUser.LastName}" />
+                <TextBlock DockPanel.Dock="Bottom" Margin="5, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="Last Name" />
+            </DockPanel>
+
+            <!--Row 3-->
+            <DockPanel Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" LastChildFill="False" VerticalAlignment="Bottom">
+                <TextBox DockPanel.Dock="Bottom" Margin="5, 0" Text="{Binding SelectedUser.UserName}" />
+                <TextBlock DockPanel.Dock="Bottom" Margin="5, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="User Name" />
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="3" HorizontalAlignment="Stretch" LastChildFill="False" VerticalAlignment="Bottom">
+                <TextBox DockPanel.Dock="Bottom" Margin="5, 0" Text="{Binding SelectedUser.Email}" />
+                <TextBlock DockPanel.Dock="Bottom" Margin="5, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="Email" />
+            </DockPanel>
+
+            <!--Row 3-->
+            <DockPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" HorizontalAlignment="Stretch" LastChildFill="False" VerticalAlignment="Bottom">
+                <DockPanel DockPanel.Dock="Bottom" LastChildFill="True" Margin="5, 0">
+                    <CheckBox x:Name="cbShowPassword" DockPanel.Dock="Right" Click="OnShowPasswordClicked" Height="15" HorizontalAlignment="Left" Margin="5, 0"
+                              Style="{DynamicResource ShowPassStyle}" VerticalAlignment="Bottom" />
+                    <Grid DockPanel.Dock="Left">
+                        <TextBox x:Name="txtEncrypted" IsReadOnly="True" Text="{Binding SelectedUser.Password}" VerticalAlignment="Bottom" />
+                        <TextBox x:Name="txtDecrypted" IsReadOnly="True"  Text="{Binding Path=SelectedUser.EncryptedPassword, Converter={StaticResource DecryptionConverter}}"
+                                   VerticalAlignment="Bottom" Visibility="Collapsed" />
+                    </Grid>
+                </DockPanel>
+                <TextBlock DockPanel.Dock="Bottom" Margin="5, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="Password" />
+            </DockPanel>
+            <DockPanel Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" LastChildFill="False" VerticalAlignment="Bottom">
+                <ComboBox x:Name="cboRole" DockPanel.Dock="Bottom" Background="Transparent" DisplayMemberPath="RoleName" Foreground="#FF999999" ItemsSource="{Binding Roles}"
+                          Margin="5, 0" SelectionChanged="OnSelectedRoleChanged" />
+                <TextBlock DockPanel.Dock="Bottom" Margin="5, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="Role" />
+            </DockPanel>
+            <DockPanel Grid.Column="2" Grid.Row="5" HorizontalAlignment="Stretch" LastChildFill="False" VerticalAlignment="Bottom">
+                <Button DockPanel.Dock="Left" HorizontalAlignment="Right" Margin="20, 0" ToolTip="Save User" VerticalAlignment="Top">
+                    <TextBlock Foreground="{Binding (Button.IsEnabled), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},
+                    Converter={StaticResource IsEnabledToForegroundConverter}}" Text="Save" />
+                </Button>
+                <Button DockPanel.Dock="Left" HorizontalAlignment="Right" Margin="20, 0" ToolTip="Cancel" VerticalAlignment="Top">
+                    <TextBlock Foreground="{Binding (Button.IsEnabled), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},
+                    Converter={StaticResource IsEnabledToForegroundConverter}}" Text="Cancel" />
+                </Button>
+            </DockPanel>
         </Grid>
 
-        <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True" VerticalAlignment="Center">
+        <!--<DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="True" VerticalAlignment="Center">
             <Button DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="20, 0" ToolTip="Cancel" VerticalAlignment="Top">
                 <TextBlock Foreground="{Binding (Button.IsEnabled), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}},
                     Converter={StaticResource IsEnabledToForegroundConverter}}" Text="Cancel" />
@@ -90,6 +160,6 @@
                     Converter={StaticResource IsEnabledToDeleteForegroundConverter}}" Text="Delete" />
             </Button>
             <Rectangle DockPanel.Dock="Right" />
-        </DockPanel>
+        </DockPanel>-->
     </Grid>
 </UserControl>
