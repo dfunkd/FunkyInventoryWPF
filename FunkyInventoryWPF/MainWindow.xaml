@@ -9,16 +9,17 @@
         mc:Ignorable="d"
         Background="#FF323232"
         Loaded="OnLoaded"
-        Height="450"
+        Height="600"
         ResizeMode="NoResize"
         Title="{Binding Path=Title}"
-        Width="800"
+        Width="1000"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None"
         x:Name="windowMain">
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.CancelCommand}" CanExecute="CanExecuteCancelCommand" Executed="ExecutedCancelCommand" />
+        <CommandBinding Command="{x:Static local:MainWindow.LogoutCommand}" CanExecute="CanExecuteLogoutCommand" Executed="ExecutedLogoutCommand" />
     </Window.CommandBindings>
 
     <Window.DataContext>
@@ -36,8 +37,12 @@
                 <TextBlock DockPanel.Dock="Left" HorizontalAlignment="Left" Foreground="White" Margin="10" Text="{Binding Title}" VerticalAlignment="Center" />
                 <Button DockPanel.Dock="Right" Command="local:MainWindow.CancelCommand" Content="X" HorizontalAlignment="Center" Margin="10, 0" Padding="5, 0"
                         VerticalAlignment="Center" />
-                <TextBlock DockPanel.Dock="Right" Margin="0, 0, 60, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="{Binding Path=LoggedInUser.LoggedInAs}"
-                           VerticalAlignment="Center" />
+                <Button DockPanel.Dock="Right" Command="local:MainWindow.LogoutCommand" HorizontalAlignment="Right" Margin="5, 9, 15, 0" VerticalAlignment="Top"
+                        Visibility="{Binding Path=Visibility}">
+                    <TextBlock Text="Logout" Style="{DynamicResource TextBoxTitleStyle}" VerticalAlignment="Bottom" />
+                </Button>
+                <TextBlock DockPanel.Dock="Right" Margin="0, 0, 80, 0" Style="{DynamicResource TextBoxTitleStyle}" Text="{Binding Path=LoggedInUser.LoggedInAs}"
+                           VerticalAlignment="Center" Visibility="{Binding Path=Visibility}" />
                 <Rectangle DockPanel.Dock="Left" />
             </DockPanel>
         </Border>

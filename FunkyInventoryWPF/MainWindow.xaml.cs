@@ -31,6 +31,22 @@ namespace FunkyInventoryWPF
         private void ExecutedCancelCommand(object sender, ExecutedRoutedEventArgs e)
             => Close();
         #endregion
+
+        #region LogoutCommand
+        private static readonly RoutedCommand logoutCommand = new();
+        public static RoutedCommand LogoutCommand = logoutCommand;
+        private void CanExecuteLogoutCommand(object sender, CanExecuteRoutedEventArgs e)
+            => e.CanExecute = e.Source is Control;
+        private void ExecutedLogoutCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (DataContext is MainWindowViewModel vm)
+            {
+                vm.LoggedInUser = null;
+                vm.Visibility = Visibility.Collapsed;
+                ChangeContent(((App)Application.Current).LoginControl);
+            }
+        }
+        #endregion
         #endregion
 
         public MainWindow()
@@ -38,6 +54,7 @@ namespace FunkyInventoryWPF
             InitializeComponent();
         }
 
+        #region Events
         private void OnDrag(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -45,15 +62,16 @@ namespace FunkyInventoryWPF
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            //var test1 = "Samuelxf11041997!".Encrypt();
-            //var test2 = test1.Decrypt();
-            //var test3 = "6iJ3mW8q1SfP8N1blxMLN7l3lXP1o9_6A5an6oo3ClU=".Decrypt();
+            => ChangeContent(((App)Application.Current).LoginControl);
+            //=> ChangeContent(((App)Application.Current).TitleControl);
+        #endregion
 
+        #region Functions
+        public void ChangeContent(Control control)
+        {
             dpContent.Children.Clear();
-            //dpContent.Children.Add(((App)Application.Current).LoginControl);
-            dpContent.Children.Add(((App)Application.Current).UserAdministrationControl);
-            //dpContent.Children.Add(((App)Application.Current).RegistrationControl);
+            dpContent.Children.Add(control);
         }
+        #endregion
     }
 }

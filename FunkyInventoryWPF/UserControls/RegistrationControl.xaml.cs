@@ -97,6 +97,8 @@ One or both already exist.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.E
         inventoryWindow = parent;
         this.userService = userService;
         VM = vm;
+
+        Resources["ShowPassStyle"] = (Style)Application.Current.Resources["ShowPassStyle"];
     }
 
     #region Events
@@ -105,6 +107,20 @@ One or both already exist.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.E
 
     private void Hidden_PasswordChanged(object sender, RoutedEventArgs e)
         => PasswordChanged(pwbPassword, txtPassword);
+
+    private void OnGotFocus(object sender, RoutedEventArgs e)
+    {
+        if (sender is TextBox)
+            (sender as TextBox).SelectAll();
+        if (sender is PasswordBox)
+            (sender as PasswordBox).SelectAll();
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is RegistrationControlViewModel vm)
+            vm.ResetViewModel();
+    }
 
     private void OnShowPasswordClicked(object sender, RoutedEventArgs e)
     {
@@ -125,10 +141,10 @@ One or both already exist.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.E
     }
 
     private void Shown_ConfirmPasswordChanged(object sender, TextChangedEventArgs e)
-        => PasswordChanged(txtPassword, pwbPassword);
+        => ConfirmPasswordChanged(txtConfirmPassword, pwbConfirmPassword);
 
     private void Shown_PasswordChanged(object sender, TextChangedEventArgs e)
-        => PasswordChanged(txtConfirmPassword, pwbConfirmPassword);
+        => PasswordChanged(txtPassword, pwbPassword);
     #endregion
 
     #region Functions
@@ -142,7 +158,10 @@ One or both already exist.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.E
         if (active is PasswordBox && passive is TextBox)
             SetCurrentValue(ConfirmPasswordProperty, (active as PasswordBox)?.Password);
         else if (active is TextBox && passive is PasswordBox)
+        {
             SetCurrentValue(ConfirmPasswordProperty, (active as TextBox)?.Text);
+            (passive as PasswordBox).Password = ConfirmPassword;
+        }
 
         _suspendConfirmPasswordChangeHandlers = false;
     }
@@ -157,7 +176,10 @@ One or both already exist.", "Duplicate", MessageBoxButton.OK, MessageBoxImage.E
         if (active is PasswordBox && passive is TextBox)
             SetCurrentValue(PasswordProperty, (active as PasswordBox)?.Password);
         else if (active is TextBox && passive is PasswordBox)
+        {
             SetCurrentValue(PasswordProperty, (active as TextBox)?.Text);
+            (passive as PasswordBox).Password = Password;
+        }
 
         _suspendPasswordChangeHandlers = false;
     }

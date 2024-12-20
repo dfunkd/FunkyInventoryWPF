@@ -101,6 +101,16 @@ public class RegistrationControlViewModel : ViewModelBase, INotifyPropertyChange
         && Password.IsValidPassword()
         && Password == ConfirmPassword;
 
+    public void ResetViewModel()
+    {
+        ConfirmPassword = string.Empty;
+        Email = string.Empty;
+        FirstName = string.Empty;
+        LastName = string.Empty;
+        Password = string.Empty;
+        UserName = string.Empty;
+    }
+
     public AddUserRequest GetAddUserRequest()
         => new()
         {

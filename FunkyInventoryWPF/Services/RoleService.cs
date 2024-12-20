@@ -12,20 +12,20 @@ public interface IRoleService
     Task<Role?> UpdateRole(Guid roleId, UpdateRoleRequest role, CancellationToken cancellationToken = default);
 }
 
-public class RoleService(IRoleRepository roleRepository) : IRoleService
+public class RoleService(IRoleRepository repo) : IRoleService
 {
     public async Task<Role?> AddRole(AddRoleRequest role, CancellationToken cancellationToken = default)
-        => await roleRepository.AddRole(role, cancellationToken);
+        => await repo.AddRole(role, cancellationToken);
 
     public async Task<bool> DeleteRole(Guid roleId, CancellationToken cancellationToken = default)
-        => await roleRepository.DeleteRole(roleId, cancellationToken);
+        => await repo.DeleteRole(roleId, cancellationToken);
 
     public async Task<List<Role>> GetAllRoles(CancellationToken cancellationToken = default)
-        => await roleRepository.GetAllRoles(cancellationToken);
+        => await repo.GetAllRoles(cancellationToken);
 
     public async Task<Role?> GetRoleById(Guid roleId, CancellationToken cancellationToken = default)
-        => await roleRepository.GetRoleById(roleId, cancellationToken);
+        => await repo.GetRoleById(roleId, cancellationToken);
 
     public async Task<Role?> UpdateRole(Guid roleId, UpdateRoleRequest role, CancellationToken cancellationToken = default)
-        => await roleRepository.UpdateRole(roleId, role, cancellationToken);
+        => await repo.UpdateRole(roleId, role, cancellationToken);
 }

@@ -26,6 +26,12 @@ public class LoginControlViewModel : ViewModelBase, INotifyPropertyChanged
         }
     }
 
+    public void ResetViewModel()
+    {
+        Password = null;
+        UserName = null;
+    }
+
     public bool IsValid
         => !(string.IsNullOrEmpty(Password)
         || string.IsNullOrEmpty(userName))

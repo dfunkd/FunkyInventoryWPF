@@ -8,7 +8,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"
+             Loaded="OnLoaded">
 
     <UserControl.CommandBindings>
         <CommandBinding Command="{x:Static local:RegistrationControl.CancelCommand}" CanExecute="CanExecuteCancelCommand" Executed="ExecutedCancelCommand" />
@@ -47,20 +48,20 @@
             <!--Row 0-->
             <DockPanel Grid.Column="1" Grid.Row="0" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
                 <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtFirstName}" Style="{DynamicResource TextBoxTitleStyle}" Text="First Name" />
-                <TextBox x:Name="txtFirstName" DockPanel.Dock="Top" Text="{Binding Path=FirstName}" />
+                <TextBox x:Name="txtFirstName" DockPanel.Dock="Top" GotFocus="OnGotFocus" Text="{Binding Path=FirstName}" />
             </DockPanel>
             <DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
                 <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtLastName}" Style="{DynamicResource TextBoxTitleStyle}" Text="Last Name" />
-                <TextBox x:Name="txtLastName" DockPanel.Dock="Top" Text="{Binding Path=LastName}" VerticalAlignment="Bottom" />
+                <TextBox x:Name="txtLastName" DockPanel.Dock="Top" GotFocus="OnGotFocus" Text="{Binding Path=LastName}" VerticalAlignment="Bottom" />
             </DockPanel>
             <!--Row 1-->
             <DockPanel Grid.Column="1" Grid.Row="1" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
                 <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtEmail}" Style="{DynamicResource TextBoxTitleStyle}" Text="Email" />
-                <TextBox x:Name="txtEmail" DockPanel.Dock="Top" Text="{Binding Path=Email}" VerticalAlignment="Bottom" />
+                <TextBox x:Name="txtEmail" DockPanel.Dock="Top" GotFocus="OnGotFocus" Text="{Binding Path=Email}" VerticalAlignment="Bottom" />
             </DockPanel>
             <DockPanel Grid.Column="2" Grid.Row="1" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
                 <TextBlock DockPanel.Dock="Top" FocusManager.FocusedElement="{Binding ElementName=txtUserName}" Style="{DynamicResource TextBoxTitleStyle}" Text="User Name" />
-                <TextBox x:Name="txtUserName" DockPanel.Dock="Top" Text="{Binding Path=UserName}" VerticalAlignment="Bottom" />
+                <TextBox x:Name="txtUserName" DockPanel.Dock="Top" GotFocus="OnGotFocus" Text="{Binding Path=UserName}" VerticalAlignment="Bottom" />
             </DockPanel>
 
             <!--Row 2-->
@@ -68,15 +69,15 @@
             <DockPanel Grid.Column="1" Grid.Row="2" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
                 <TextBlock DockPanel.Dock="Top" Style="{DynamicResource TextBoxTitleStyle}" Text="Password" />
                 <Grid DockPanel.Dock="Top">
-                    <PasswordBox x:Name="pwbPassword" PasswordChanged="Hidden_PasswordChanged" VerticalAlignment="Bottom" />
-                    <TextBox x:Name="txtPassword" Text="{Binding Path=Password, Mode=TwoWay}" TextChanged="Shown_PasswordChanged" VerticalAlignment="Bottom" Visibility="Collapsed" />
+                    <PasswordBox x:Name="pwbPassword" GotFocus="OnGotFocus" PasswordChanged="Hidden_PasswordChanged" VerticalAlignment="Bottom" />
+                    <TextBox x:Name="txtPassword" Text="{Binding Path=Password}" TextChanged="Shown_PasswordChanged" VerticalAlignment="Bottom" Visibility="Collapsed" />
                 </Grid>
             </DockPanel>
             <DockPanel Grid.Column="2" Grid.Row="2" LastChildFill="False" Margin="5, 10" VerticalAlignment="Bottom">
                 <TextBlock DockPanel.Dock="Top" Style="{DynamicResource TextBoxTitleStyle}" Text="Confirm Password" />
                 <Grid DockPanel.Dock="Top">
-                    <PasswordBox x:Name="pwbConfirmPassword" PasswordChanged="Hidden_ConfirmPasswordChanged" VerticalAlignment="Bottom" />
-                    <TextBox x:Name="txtConfirmPassword" Text="{Binding Path=ConfirmPassword, Mode=TwoWay}" TextChanged="Shown_ConfirmPasswordChanged" VerticalAlignment="Bottom"
+                    <PasswordBox x:Name="pwbConfirmPassword" GotFocus="OnGotFocus" PasswordChanged="Hidden_ConfirmPasswordChanged" VerticalAlignment="Bottom" />
+                    <TextBox x:Name="txtConfirmPassword" Text="{Binding Path=ConfirmPassword}" TextChanged="Shown_ConfirmPasswordChanged" VerticalAlignment="Bottom"
                              Visibility="Collapsed" />
                 </Grid>
             </DockPanel>

@@ -4,9 +4,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <conv:DecryptionConverter x:Key="DecryptionConverter" />
+    <conv:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
     <conv:IsEnabledToForegroundConverter x:Key="IsEnabledToForegroundConverter" />
     <conv:IsEnabledToDeleteForegroundConverter x:Key="IsEnabledToDeleteForegroundConverter" />
     <conv:NullToCollapsedConverter x:Key="NullToCollapsedConverter" />
+    <conv:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
 
     <LinearGradientBrush x:Key="HeaderFade" StartPoint="0.5, 0" EndPoint="0.5, 1">
         <GradientStop Color="#FF595959" Offset="0" />
@@ -17,6 +19,11 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="#FF999999" />
+    </Style>
+
+    <Style x:Key="faButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <!--Show Password CheckBox-->
@@ -145,6 +152,8 @@
     <!--ListView-->
     <Style TargetType="{x:Type ListView}">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="#FF0D0D0D" />
+        <Setter Property="BorderThickness" Value="2" />
     </Style>
 
     <!--PasswordBox-->
@@ -164,6 +173,48 @@
         <Setter Property="FontSize" Value="34" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Foreground" Value="#FF999999" />
+    </Style>
+
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="#FF0D0D0D" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border Name="Border" Margin="-4, 0" BorderBrush="#FF323232" BorderThickness="0" CornerRadius="5, 15, 0, 0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0.5, 0" EndPoint="0.5, 1">
+                                    <GradientStop Color="#FF999999" Offset="0" />
+                                    <GradientStop Color="#FF595959" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="24, 5, 48, 5"
+                                                  RecognizesAccessKey="True" Width="200" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Panel.ZIndex" Value="100" />
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0.5, 0" EndPoint="0.5, 1">
+                                        <GradientStop Color="#FF595959" Offset="0" />
+                                        <GradientStop Color="#FF0D0D0D" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="#FF999999" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="Border" Value="#FF595959" />
+                            <Setter Property="BorderBrush" TargetName="Border" Value="#FF4D4D4D" />
+                            <Setter Property="Foreground" Value="#FF4D4D4D" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!--TextBox-->

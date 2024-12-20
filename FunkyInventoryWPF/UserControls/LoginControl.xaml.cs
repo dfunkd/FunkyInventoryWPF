@@ -53,11 +53,13 @@ public partial class LoginControl : UserControl
 
         Authentication.TokenExpiration = DateTime.Now.AddMinutes(15);
 
-        inventoryWindow.dpContent.Children.Clear();
         MainWindowViewModel vm = (inventoryWindow.DataContext as MainWindowViewModel);
         if (vm is not null)
+        {
             vm.LoggedInUser = user;
-        //inventoryWindow.dpContent.Children.Add(((App)Application.Current).TitleControl);
+            vm.Visibility = Visibility.Visible;
+        }
+        inventoryWindow.ChangeContent(((App)Application.Current).TitleControl);
     }
     #endregion
 
@@ -107,7 +109,11 @@ public partial class LoginControl : UserControl
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
-        => txtUserName.Focus();
+    {
+        txtUserName.Focus();
+        if (DataContext is LoginControlViewModel vm)
+            vm.ResetViewModel();
+    }
 
     private void OnShowPasswordClicked(object sender, RoutedEventArgs e)
     {

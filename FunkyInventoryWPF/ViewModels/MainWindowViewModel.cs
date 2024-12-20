@@ -1,5 +1,6 @@
 ﻿using FunkyInventoryWPF.Models.UserModels;
 using System.ComponentModel;
+using System.Windows;
 
 namespace FunkyInventoryWPF.ViewModels;
 
@@ -28,6 +29,20 @@ internal class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             if (loggedInUser != value)
             {
                 loggedInUser = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private Visibility visibility = Visibility.Collapsed;
+    public Visibility Visibility
+    {
+        get => visibility;
+        set
+        {
+            if (visibility != value)
+            {
+                visibility = value;
                 OnPropertyChanged();
             }
         }

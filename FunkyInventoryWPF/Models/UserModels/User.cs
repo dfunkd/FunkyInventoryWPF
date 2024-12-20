@@ -16,7 +16,7 @@ public class User : BaseModel
     public string? Password { get; set; }
     public string? EncryptedPassword { get; set; }
 
-    public string? LoggedInAs => $"Logged In As: {FirstName} {LastName} : {Role?.RoleName}";
+    public string? LoggedInAs => $"{FirstName} {LastName} ({UserName}) : {Role?.RoleName}";
 
     public Role? Role { get; set; }
 }

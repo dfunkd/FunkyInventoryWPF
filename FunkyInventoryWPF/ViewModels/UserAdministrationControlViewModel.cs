@@ -45,7 +45,6 @@ public class UserAdministrationControlViewModel : ViewModelBase, INotifyProperty
             {
                 searchString = value;
                 OnPropertyChanged();
-                //Users = [.. Users.Where(w => w.UserName is not null && w.UserName.Contains(value))];
                 Filter = string.IsNullOrEmpty(searchString) ? (Predicate<object>)null : this.IsMatch;
             }
         }

@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using System.Data;
+using System.Security.Policy;
 using System.Windows;
 
 namespace FunkyInventoryWPF;
@@ -15,7 +16,10 @@ public partial class App : Application
 {
     #region UserControls
     public LoginControl LoginControl { get; set; }
+    public RecipeControl RecipeControl { get; set; }
     public RegistrationControl RegistrationControl { get; set; }
+    public SplashControl SplashControl { get; set; }
+    public TitleControl TitleControl { get; set; }
     public UserAdministrationControl UserAdministrationControl { get; set; }
     #endregion
 
@@ -29,7 +33,10 @@ public partial class App : Application
         ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
         LoginControl = serviceProvider.GetRequiredService<LoginControl>();
+        RecipeControl = serviceProvider.GetRequiredService<RecipeControl>();
         RegistrationControl = serviceProvider.GetRequiredService<RegistrationControl>();
+        SplashControl = serviceProvider.GetRequiredService<SplashControl>();
+        TitleControl = serviceProvider.GetRequiredService<TitleControl>();
         UserAdministrationControl = serviceProvider.GetRequiredService<UserAdministrationControl>();
 
         MainWindow = serviceProvider.GetRequiredService<MainWindow>();
@@ -44,21 +51,31 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<LoginControlViewModel>();
         services.AddSingleton<LoginControl>();
 
+        services.AddSingleton<RecipeControlViewModel>();
+        services.AddSingleton<RecipeControl>();
+
         services.AddSingleton<RegistrationControlViewModel>();
         services.AddSingleton<RegistrationControl>();
 
+        services.AddSingleton<SplashControlViewModel>();
+        services.AddSingleton<SplashControl>();
+
+        services.AddSingleton<TitleControlViewModel>();
+        services.AddSingleton<TitleControl>();
+
         services.AddSingleton<UserAdministrationControlViewModel>();
         services.AddSingleton<UserAdministrationControl>();
-        //services.AddSingleton<UserListViewModel>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainWindow>();
 
         services.AddScoped<ILoginService,  LoginService>();
+        services.AddScoped<IRecipeService, RecipeService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserService, UserService>();
 
         services.AddScoped<ILoginRepository,  LoginRepository>();
+        services.AddScoped<IRecipeRepository, RecipeRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
     }
