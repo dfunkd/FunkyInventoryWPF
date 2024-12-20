@@ -6,7 +6,7 @@ namespace FunkyInventoryWPF.Converters;
 public class DecryptionConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        => value.ToString().Decrypt();
+        => value is not null ?  value.ToString().Decrypt() : string.Empty;
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {

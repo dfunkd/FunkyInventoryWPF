@@ -1,12 +1,26 @@
 ﻿using FunkyInventoryWPF.Models.UserModels;
+using FunkyInventoryWPF.Services;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 
 namespace FunkyInventoryWPF.ViewModels;
 
 public class UserAdministrationControlViewModel : ViewModelBase, INotifyPropertyChanged
 {
+    private Predicate<object> filter;
+    public  Predicate<object> Filter
+    {
+        get => filter;
+        set
+        {
+            if (filter != value)
+            {
+                filter = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     private string password;
     public string Password
     {
@@ -16,6 +30,50 @@ public class UserAdministrationControlViewModel : ViewModelBase, INotifyProperty
             if (password != value)
             {
                 password = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string searchString;
+    public string SearchString
+    {
+        get => searchString;
+        set
+        {
+            if (searchString != value)
+            {
+                searchString = value;
+                OnPropertyChanged();
+                //Users = [.. Users.Where(w => w.UserName is not null && w.UserName.Contains(value))];
+                Filter = string.IsNullOrEmpty(searchString) ? (Predicate<object>)null : this.IsMatch;
+            }
+        }
+    }
+
+    private string title;
+    public string Title
+    {
+        get => title;
+        set
+        {
+            if (title != value)
+            {
+                title = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    private string userName;
+    public string UserName
+    {
+        get => userName;
+        set
+        {
+            if (userName != value)
+            {
+                userName = value;
                 OnPropertyChanged();
             }
         }
@@ -75,6 +133,47 @@ public class UserAdministrationControlViewModel : ViewModelBase, INotifyProperty
                 OnPropertyChanged();
             }
         }
+    }
+
+    public AddUserRequest? GetAddUserRequest()
+        => SelectedUser is not null ? new()
+        {
+            Email = SelectedUser.Email,
+            EncryptedPassword = SelectedUser.EncryptedPassword,
+            FirstName = SelectedUser.FirstName,
+            LastName = SelectedUser.LastName,
+            Password = SelectedUser.Password,
+            RoleId = SelectedUser.RoleId,
+            UserName = SelectedUser.UserName
+        } : null;
+
+    public UpdateUserRequest? GetUpdateUserRequest()
+        => SelectedUser is not null ? new()
+        {
+            Email = SelectedUser.Email,
+            FirstName = SelectedUser.FirstName,
+            LastName = SelectedUser.LastName,
+            LastLogin = SelectedUser.LastLogin,
+            RoleId = SelectedUser.RoleId,
+            UserName = SelectedUser.UserName
+        } : null;
+
+    private bool IsMatch(object item)
+        => IsMatch((User)item, searchString);
+
+    private static bool IsMatch(User user, string searchString)
+    {
+        if (string.IsNullOrEmpty(searchString))
+            return true;
+
+        var name = user.UserName;
+        if (string.IsNullOrEmpty(name))
+            return false;
+
+        if (searchString.Length == 1)
+            return name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase);
+
+        return name.IndexOf(searchString, 0, StringComparison.OrdinalIgnoreCase) >= 0;
     }
 
     public bool IsValid()

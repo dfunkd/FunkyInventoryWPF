@@ -49,6 +49,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<UserAdministrationControlViewModel>();
         services.AddSingleton<UserAdministrationControl>();
+        //services.AddSingleton<UserListViewModel>();
 
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainWindow>();

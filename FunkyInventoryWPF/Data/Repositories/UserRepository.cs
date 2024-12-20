@@ -235,8 +235,6 @@ WHERE UserId = @userId
         using IDbConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["InventoryDb"].ConnectionString);
         if (conn.State != ConnectionState.Open)
             conn.Open();
-        if (conn.State != ConnectionState.Open)
-            conn.Open();
         using IDbTransaction trx = conn.BeginTransaction();
 
         try
@@ -273,10 +271,10 @@ UPDATE dbo.[User]
 SET ModifiedBy = @by
     , ModifiedDate = @now
     , FirstName = @firstName
+    , Email = @email
     , LastName = @lastName
     , LastLogin = @lastLogin
     , Username = @userName
-    , EncryptedPassword = @encryptedPassword
     , RoleId = @roleId
 WHERE UserId = @userId
 ";

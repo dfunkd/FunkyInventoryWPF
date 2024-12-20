@@ -2,7 +2,7 @@
 
 public class UpdateUserRequest
 {
-    public DateTime LastLogin { get; set; } = DateTime.Now;
+    public DateTime? LastLogin { get; set; } = DateTime.Now;
 
     public Guid RoleId { get; set; }
 
