@@ -5,6 +5,7 @@
 
     <conv:DecryptionConverter x:Key="DecryptionConverter" />
     <conv:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
+    <conv:InvertBoolConverter x:Key="InvertBoolConverter" />
     <conv:IsEnabledToForegroundConverter x:Key="IsEnabledToForegroundConverter" />
     <conv:IsEnabledToDeleteForegroundConverter x:Key="IsEnabledToDeleteForegroundConverter" />
     <conv:NullToCollapsedConverter x:Key="NullToCollapsedConverter" />
@@ -149,11 +150,41 @@
         </Setter>
     </Style>
 
+    <!--ListBox-->
+    <Style x:Key="ListBoxLight" TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="#FF595959"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="Transparent" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!--ListView-->
-    <Style TargetType="{x:Type ListView}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="#FF0D0D0D" />
-        <Setter Property="BorderThickness" Value="2" />
+    <Style x:Key="ListViewLight" TargetType="{x:Type ListView}">
+        <Setter Property="Background" Value="#FF595959" />
+        <Setter Property="BorderBrush" Value="#FF595959" />
+        <Setter Property="BorderThickness" Value="1" />
+        <!--<Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListView}">
+                    <Border Name="Border" HorizontalAlignment="Stretch" SnapsToDevicePixels="true">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>-->
+    </Style>
+    
+    <!--ListViewItem-->
+    <Style TargetType="{x:Type ListViewItem}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />        
     </Style>
 
     <!--PasswordBox-->

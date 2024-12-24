@@ -54,9 +54,9 @@
             </Button.Resources>
         </Button>
 
-        <Border Grid.Column="0" Grid.Row="1" Background="#FF595959" BorderBrush="#FF0D0D0D" BorderThickness="1" CornerRadius="5" HorizontalAlignment="Center" Margin="5" Padding="5">
+        <Border Grid.Column="0" Grid.Row="1" Background="#FF323232" BorderBrush="#FF0D0D0D" BorderThickness="1" CornerRadius="5" HorizontalAlignment="Center" Margin="5" Padding="5">
             <DockPanel LastChildFill="False">
-                <Button DockPanel.Dock="Top" Height="35" HorizontalAlignment="Center" Padding="5" Style="{DynamicResource faButtonStyle}" VerticalAlignment="Center" Width="35">
+                <Button DockPanel.Dock="Top" Command="local:TitleControl.HomeCommand" Height="35" HorizontalAlignment="Center" Padding="5" Style="{DynamicResource faButtonStyle}" VerticalAlignment="Center" Width="35">
                     <Button.Content>
                         <fa:ImageAwesome Foreground="#FF999999" Icon="Home" Stretch="Uniform"/>
                     </Button.Content>
@@ -73,6 +73,11 @@
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="8" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Red" />
+                                </Trigger>
+                            </Style.Triggers>
                         </Style>
                     </Button.Resources>
                 </Button>

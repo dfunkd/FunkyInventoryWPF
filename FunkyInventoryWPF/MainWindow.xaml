@@ -7,15 +7,17 @@
         xmlns:vm="clr-namespace:FunkyInventoryWPF.ViewModels"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         mc:Ignorable="d"
-        Background="#FF323232"
+        Background="#FF595959"
         Loaded="OnLoaded"
-        Height="600"
+        Height="800"
         ResizeMode="NoResize"
         Title="{Binding Path=Title}"
-        Width="1000"
-        WindowStartupLocation="CenterOwner"
+        Width="1400"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         x:Name="windowMain">
+
+    <!--Background="#FF323232"-->
 
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.CancelCommand}" CanExecute="CanExecuteCancelCommand" Executed="ExecutedCancelCommand" />
